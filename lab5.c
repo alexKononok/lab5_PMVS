@@ -147,3 +147,5 @@ static ssize_t dev_operator_write(struct file *filp, const char *buff, size_t le
 	return len;
 }
 
+MODULE_LICENSE("GPL");
+MODULE_AUTHOR("Alexander Kononok");
