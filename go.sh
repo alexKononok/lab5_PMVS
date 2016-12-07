@@ -1,30 +1,23 @@
 #!/bin/bash
 
-sudo sh load.sh
-
-function check {
-    echo $1 > /dev/first
-    echo $2 > /dev/operator
-    echo $3 > /dev/second
-    echo "$1 $2 $3 = $4"
-	result=$(cat /proc/result)
-    if [ "$4" == "$result" ]; then
-        echo "True!"
-    else
-        echo "False!"
-	echo "Expected:"
-	echo "$4"
-	echo "Getted:"
-	echo "$result"
-    fi
+function test {
+	echo "$1" > /proc/first
+	echo "$2" > /proc/operand
+	echo "$3" > /proc/second
+	res=`sudo cat /dev/result`
+	echo "$1 $2 $3 = ${res}"
+	if [ "${res}" == "$4" ]; then
+		echo "true"
+	else 
+		echo "false"
+	fi
 }
 
-check 1 + 9 "10"
-check 1 - 9 "-8"
-check 2 p 2 "4"
-check 2 / 2 "1"
-check 1 / 0 "NaN"
-check 1 + 1 "3"
-
-sudo sh unload.sh
-
+test 1 + 1 2
+test 1 - 9 -8
+test -1 + 9 8
+test 8 / 2 4
+test -9 / 3 -3
+test 2 '*' 3 6
+test -2 '*' 3 -6
+test -2 '*' -2 4
